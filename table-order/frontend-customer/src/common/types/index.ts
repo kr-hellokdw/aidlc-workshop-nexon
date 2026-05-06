@@ -24,17 +24,18 @@ export interface CartItem {
 
 export interface Order {
   id: number;
-  orderNumber: string;
+  orderNumber: number;
   items: OrderItem[];
   totalAmount: number;
   status: 'PENDING' | 'PREPARING' | 'COMPLETED';
-  createdAt: string;
+  orderedAt: string;
 }
 
 export interface OrderItem {
   menuName: string;
   quantity: number;
-  price: number;
+  menuPrice: number;
+  subtotal: number;
 }
 
 export interface TableInfo {

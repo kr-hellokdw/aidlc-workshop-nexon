@@ -52,8 +52,8 @@ export function OrderHistoryPage() {
           orders.map((order) => (
             <div key={order.id} className={styles.card}>
               <div className={styles.cardHeader}>
-                <span className={styles.orderNumber}>#{order.orderNumber}</span>
-                <span className={styles.time}>{formatTime(order.createdAt)}</span>
+                <span className={styles.orderNumber}>#{String(order.orderNumber).padStart(3, '0')}</span>
+                <span className={styles.time}>{formatTime(order.orderedAt)}</span>
                 <span className={`${styles.status} ${styles[order.status.toLowerCase()]}`}>
                   {statusLabel[order.status]}
                 </span>
@@ -62,7 +62,7 @@ export function OrderHistoryPage() {
                 {order.items.map((item, idx) => (
                   <div key={idx} className={styles.item}>
                     <span>{item.menuName} × {item.quantity}</span>
-                    <span>{formatPrice(item.price * item.quantity)}</span>
+                    <span>{formatPrice(item.subtotal)}</span>
                   </div>
                 ))}
               </div>
