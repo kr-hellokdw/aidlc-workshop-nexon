@@ -116,3 +116,23 @@
 - application-design.md: Consolidated design document
 
 ---
+
+## INCEPTION - Application Design (Review & Optimization)
+**Timestamp**: 2026-05-06T00:09:00Z
+**User Input**: "application-design 관려해서 다시한번 디자인 최적인지 검수해서 업데이트 해줘"
+**AI Response**: Performed thorough design review, identified 10 issues, updated all 5 design artifacts with optimizations.
+**Context**: Application Design - Design review and optimization
+
+### Issues Found & Resolved:
+1. Circular dependency (TableService ↔ OrderService) → TableSessionService 분리
+2. Missing Category CRUD API → CategoryController + CategoryService 추가
+3. Unclear session start logic → getOrCreateSession() 자동 생성
+4. Unnecessary OrderHistory table → Session status filtering (단일 Order 테이블)
+5. Missing SSE reconnection → Heartbeat(30s) + client auto-reconnect(3s, 5x)
+6. Missing dashboard initial load API → GET /api/admin/dashboard 추가
+7. Inaccurate dependency diagram → Corrected unidirectional diagram
+8. Undefined login attempt limiting → LoginAttemptService (5 attempts/15min block)
+9. Undefined file validation → Format(jpg/png/webp) + Size(5MB) validation
+10. Undefined SSE event types → SseEventType enum (5 events)
+
+---
