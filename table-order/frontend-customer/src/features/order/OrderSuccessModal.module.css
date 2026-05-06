@@ -1,0 +1,37 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s;
+}
+
+.modal {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: 48px;
+  text-align: center;
+  min-width: 360px;
+  animation: scaleIn 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.icon { font-size: 56px; margin-bottom: 16px; }
+.title { font-size: 24px; font-weight: 700; margin-bottom: 12px; }
+.orderNumber { font-size: 18px; font-weight: 600; color: var(--color-primary); margin-bottom: 8px; }
+.message { font-size: 14px; color: var(--color-text-secondary); margin-bottom: 16px; }
+.countdown { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 24px; }
+
+.closeBtn {
+  padding: 14px 40px;
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
