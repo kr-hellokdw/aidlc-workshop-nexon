@@ -111,13 +111,13 @@ export const mockCategories = [
 ];
 
 export const mockMenus = [
-  { menuId: 1, name: '김치찌개', price: 9000, description: '돼지고기와 신김치로 끓인 얼큰한 찌개', imageUrl: null, categoryId: 1, categoryName: '한식', displayOrder: 0 },
-  { menuId: 2, name: '된장찌개', price: 9000, description: '구수한 된장찌개', imageUrl: null, categoryId: 1, categoryName: '한식', displayOrder: 1 },
-  { menuId: 3, name: '비빔밥', price: 8000, description: '신선한 야채와 고추장 비빔밥', imageUrl: null, categoryId: 1, categoryName: '한식', displayOrder: 2 },
-  { menuId: 4, name: '불고기', price: 12000, description: '달콤한 양념 불고기', imageUrl: null, categoryId: 1, categoryName: '한식', displayOrder: 3 },
-  { menuId: 5, name: '콜라', price: 2000, description: '', imageUrl: null, categoryId: 2, categoryName: '음료', displayOrder: 0 },
-  { menuId: 6, name: '사이다', price: 2000, description: '', imageUrl: null, categoryId: 2, categoryName: '음료', displayOrder: 1 },
-  { menuId: 7, name: '아이스티', price: 3000, description: '복숭아 아이스티', imageUrl: null, categoryId: 2, categoryName: '음료', displayOrder: 2 },
-  { menuId: 8, name: '아이스크림', price: 4000, description: '바닐라 아이스크림', imageUrl: null, categoryId: 3, categoryName: '디저트', displayOrder: 0 },
-  { menuId: 9, name: '떡', price: 5000, description: '찰떡', imageUrl: null, categoryId: 3, categoryName: '디저트', displayOrder: 1 },
+  { menuId: 1, name: '김치찌개', price: 9000, description: '돼지고기와 신김치로 끓인 얼큰한 찌개', imageUrl: 'https://images.unsplash.com/photo-1583187855209-de1e2ac1a74e?w=400&h=300&fit=crop', categoryId: 1, categoryName: '한식', displayOrder: 0 },
+  { menuId: 2, name: '된장찌개', price: 9000, description: '구수한 된장찌개', imageUrl: 'https://images.unsplash.com/photo-1607532941433-304659e8198a?w=400&h=300&fit=crop', categoryId: 1, categoryName: '한식', displayOrder: 1 },
+  { menuId: 3, name: '비빔밥', price: 8000, description: '신선한 야채와 고추장 비빔밥', imageUrl: 'https://images.unsplash.com/photo-1590301157890-4810ed352733?w=400&h=300&fit=crop', categoryId: 1, categoryName: '한식', displayOrder: 2 },
+  { menuId: 4, name: '불고기', price: 12000, description: '달콤한 양념 불고기', imageUrl: 'https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=400&h=300&fit=crop', categoryId: 1, categoryName: '한식', displayOrder: 3 },
+  { menuId: 5, name: '콜라', price: 2000, description: '시원한 탄산음료 355ml', imageUrl: 'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=400&h=300&fit=crop', categoryId: 2, categoryName: '음료', displayOrder: 0 },
+  { menuId: 6, name: '사이다', price: 2000, description: '청량한 레몬라임 355ml', imageUrl: 'https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=400&h=300&fit=crop', categoryId: 2, categoryName: '음료', displayOrder: 1 },
+  { menuId: 7, name: '아이스티', price: 3000, description: '복숭아 아이스티', imageUrl: 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400&h=300&fit=crop', categoryId: 2, categoryName: '음료', displayOrder: 2 },
+  { menuId: 8, name: '아이스크림', price: 4000, description: '바닐라 아이스크림', imageUrl: 'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?w=400&h=300&fit=crop', categoryId: 3, categoryName: '디저트', displayOrder: 0 },
+  { menuId: 9, name: '떡', price: 5000, description: '찰떡', imageUrl: 'https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?w=400&h=300&fit=crop', categoryId: 3, categoryName: '디저트', displayOrder: 1 },
 ];
