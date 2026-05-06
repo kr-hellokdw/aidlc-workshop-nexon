@@ -1,0 +1,56 @@
+version: '3.8'
+
+# 통합 실행 - 전체 시스템 (Backend + Frontend 2개 + MySQL)
+# 사용법: docker compose up -d
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: tableorder-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root1234
+      MYSQL_DATABASE: tableorder
+      MYSQL_USER: tableorder
+      MYSQL_PASSWORD: tableorder1234
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    container_name: tableorder-backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tableorder
+      SPRING_DATASOURCE_USERNAME: tableorder
+      SPRING_DATASOURCE_PASSWORD: tableorder1234
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  frontend-customer:
+    build: ./frontend-customer
+    container_name: tableorder-customer
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+  frontend-admin:
+    build: ./frontend-admin
+    container_name: tableorder-admin
+    ports:
+      - "3001:80"
+    depends_on:
+      - backend
+
+volumes:
+  mysql-data:

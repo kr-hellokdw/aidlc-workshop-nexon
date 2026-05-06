@@ -1,0 +1,32 @@
+# Java / Gradle
+backend/build/
+backend/.gradle/
+backend/bin/
+*.class
+*.jar
+
+# Node
+frontend-customer/node_modules/
+frontend-customer/dist/
+frontend-admin/node_modules/
+frontend-admin/dist/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Uploads
+backend/uploads/
+
+# Docker
+mysql-data/

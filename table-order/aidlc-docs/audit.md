@@ -172,3 +172,19 @@
 **Context**: Units Generation - Step 17 (Approval received), transitioning to CONSTRUCTION
 
 ---
+
+## CONSTRUCTION - Project Structure Update (Independent Development)
+**Timestamp**: 2026-05-06T00:13:00Z
+**User Input**: "unit 별로 3명이서 각각 나눠서 진행을 할 예정이야그리고 각 unit 별로 개별 PC 에서 진행을 하고 나중에 push 를 할거고이를 위한 폴더 구조 수정을 해줄래?"
+**AI Response**: Updated project structure to support independent development by 3 developers. Added: docs/ (API contract sharing), mocks/ (MSW for FE independent dev), per-unit Dockerfile/README, docker-compose for integration, git branch strategy.
+**Context**: Project structure optimization for parallel independent development
+
+### Key Changes:
+- Added `docs/` folder for API spec sharing (openapi.yml, DTO specs, SSE events)
+- Added `mocks/` in each frontend for MSW-based independent development
+- Added per-unit Dockerfile and README for independent build/run
+- Added docker-compose.yml for integration testing
+- Defined git branch strategy (feature/backend, feature/frontend-customer, feature/frontend-admin)
+- Updated unit-of-work.md with collaboration strategy
+
+---

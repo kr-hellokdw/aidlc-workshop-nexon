@@ -5,6 +5,41 @@
 - **우선순위**: 의존성 순서 (기반 → 지원 → 핵심)
 - **유닛 크기**: 큰 유닛 (3개)
 - **아키텍처**: 모노리스 (단일 Spring Boot 앱 + React 앱 2개)
+- **개발 방식**: 3명이 각 유닛을 개별 PC에서 독립 개발 후 push
+
+---
+
+## 협업 전략 (Independent Development)
+
+### 개발 환경
+- **개발자 A**: Unit 1 (Backend) - 개별 PC에서 독립 개발
+- **개발자 B**: Unit 2 (Customer Frontend) - 개별 PC에서 독립 개발
+- **개발자 C**: Unit 3 (Admin Frontend) - 개별 PC에서 독립 개발
+
+### Git 브랜치 전략
+```
+main (단일 브랜치)
+├── backend/              ← 개발자 A 작업 영역
+├── frontend-customer/    ← 개발자 B 작업 영역
+└── frontend-admin/       ← 개발자 C 작업 영역
+```
+- **단일 브랜치(main)** 에서 폴더별로 작업 영역 분리
+- 각 개발자는 자신의 폴더만 수정 → 충돌 없음
+- `docs/` 폴더는 개발자 A가 API 스펙 작성, B/C가 참조만
+
+### 독립 개발을 위한 핵심 원칙
+1. **API 계약 우선 정의**: Backend 개발자가 Swagger/OpenAPI 스펙을 먼저 공유
+2. **Mock API 활용**: Frontend 개발자는 API 스펙 기반 Mock으로 독립 개발 가능
+3. **공유 타입 없음**: 각 유닛이 자체 타입 정의 (모노레포이지만 코드 의존성 없음)
+4. **독립 빌드**: 각 유닛이 자체 빌드/테스트 가능 (다른 유닛 없이도 동작)
+
+### 통합 순서
+```
+1. 모두 main 브랜치에서 자기 폴더만 작업 (backend/, frontend-customer/, frontend-admin/)
+2. 각자 commit & push (폴더가 다르므로 충돌 없음)
+3. docs/ 폴더: 개발자 A가 API 스펙 작성 → B, C가 pull 후 참조
+4. 전체 완성 후 통합 테스트
+```
 
 ---
 

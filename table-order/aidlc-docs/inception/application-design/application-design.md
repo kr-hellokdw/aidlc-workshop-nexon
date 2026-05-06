@@ -62,89 +62,119 @@
 
 ## 3. 모노레포 프로젝트 구조
 
+> **독립 개발 원칙**: 각 유닛(폴더)은 자체 빌드 시스템을 가지며, 다른 유닛 없이도 독립적으로 개발/빌드/테스트 가능합니다. 3명의 개발자가 각각 자신의 유닛 폴더만 작업합니다.
+
 ```
-table-order/
+table-order/                              # 모노레포 루트
 |
-+-- backend/                              # Spring Boot 백엔드
++-- docs/                                 # 공유 문서 (API 계약 등)
+|   +-- api-spec/                         # OpenAPI 스펙 (Backend 개발자가 작성, FE 개발자가 참조)
+|   |   +-- openapi.yml                   # API 스펙 정의서
+|   +-- shared-types/                     # API 요청/응답 타입 정의 (참조용, 코드 의존성 아님)
+|   |   +-- auth.md                       # 인증 관련 DTO 명세
+|   |   +-- order.md                      # 주문 관련 DTO 명세
+|   |   +-- menu.md                       # 메뉴 관련 DTO 명세
+|   |   +-- table.md                      # 테이블 관련 DTO 명세
+|   +-- sse-events.md                     # SSE 이벤트 형식 정의
+|
++-- backend/                              # [개발자 A] Spring Boot 백엔드
 |   +-- src/main/java/com/tableorder/
-|   |   +-- TableOrderApplication.java    # 메인 클래스
-|   |   +-- auth/                         # 인증 모듈
+|   |   +-- TableOrderApplication.java
+|   |   +-- auth/
 |   |   |   +-- controller/
 |   |   |   +-- service/
 |   |   |   +-- dto/
 |   |   |   +-- entity/
 |   |   |   +-- repository/
-|   |   |   +-- security/                 # JWT, Security Config
-|   |   +-- store/                        # 매장 모듈
-|   |   +-- table/                        # 테이블 모듈
-|   |   |   +-- controller/
-|   |   |   +-- service/                  # TableService + TableSessionService
-|   |   |   +-- dto/
-|   |   |   +-- entity/
-|   |   |   +-- repository/
-|   |   +-- menu/                         # 메뉴 모듈
-|   |   |   +-- controller/              # MenuController + CategoryController
-|   |   |   +-- service/                  # MenuService + CategoryService
-|   |   |   +-- dto/
-|   |   |   +-- entity/
-|   |   |   +-- repository/
-|   |   +-- order/                        # 주문 모듈
-|   |   +-- sse/                          # SSE 모듈
-|   |   +-- file/                         # 파일 모듈
-|   |   +-- common/                       # 공통 모듈
-|   |       +-- config/                   # 설정 클래스
-|   |       +-- dto/                      # ApiResponse, PageResponse
-|   |       +-- entity/                   # BaseEntity (audit fields)
-|   |       +-- exception/               # 커스텀 예외 + 핸들러
-|   |       +-- util/                     # 유틸리티
+|   |   |   +-- security/
+|   |   +-- store/
+|   |   +-- table/
+|   |   +-- menu/
+|   |   +-- order/
+|   |   +-- sse/
+|   |   +-- file/
+|   |   +-- common/
+|   |       +-- config/
+|   |       +-- dto/
+|   |       +-- entity/
+|   |       +-- exception/
+|   |       +-- util/
 |   +-- src/main/resources/
 |   |   +-- application.yml
 |   |   +-- application-dev.yml
 |   |   +-- application-prod.yml
 |   +-- src/test/
 |   +-- build.gradle
+|   +-- settings.gradle
+|   +-- Dockerfile
+|   +-- README.md                         # Backend 독립 빌드/실행 가이드
 |
-+-- frontend-customer/                    # 고객용 React 앱
++-- frontend-customer/                    # [개발자 B] 고객용 React 앱
 |   +-- src/
 |   |   +-- features/
-|   |   |   +-- auth/                     # 자동 로그인, 설정
-|   |   |   +-- menu/                     # 메뉴 조회
-|   |   |   +-- cart/                     # 장바구니
-|   |   |   +-- order/                    # 주문 생성/내역
-|   |   +-- common/
-|   |   |   +-- components/               # 공통 UI 컴포넌트
-|   |   |   +-- hooks/                    # 공통 훅
-|   |   |   +-- api/                      # Axios 클라이언트
-|   |   |   +-- types/                    # TypeScript 타입
-|   |   +-- App.tsx
-|   |   +-- main.tsx
-|   +-- index.html
-|   +-- package.json
-|   +-- vite.config.ts
-|   +-- tsconfig.json
-|
-+-- frontend-admin/                       # 관리자용 React 앱
-|   +-- src/
-|   |   +-- features/
-|   |   |   +-- auth/                     # 관리자 로그인
-|   |   |   +-- dashboard/               # 실시간 모니터링
-|   |   |   +-- table/                    # 테이블 관리
-|   |   |   +-- menu/                     # 메뉴 관리
+|   |   |   +-- auth/
+|   |   |   +-- menu/
+|   |   |   +-- cart/
+|   |   |   +-- order/
 |   |   +-- common/
 |   |   |   +-- components/
 |   |   |   +-- hooks/
-|   |   |   +-- api/                      # Axios + SSE 클라이언트
+|   |   |   +-- api/
 |   |   |   +-- types/
+|   |   +-- mocks/                        # Mock API (Backend 없이 독립 개발용)
+|   |   |   +-- handlers.ts              # MSW 핸들러
+|   |   |   +-- data.ts                  # Mock 데이터
 |   |   +-- App.tsx
 |   |   +-- main.tsx
 |   +-- index.html
 |   +-- package.json
 |   +-- vite.config.ts
 |   +-- tsconfig.json
+|   +-- Dockerfile
+|   +-- README.md                         # Customer FE 독립 빌드/실행 가이드
 |
-+-- README.md
++-- frontend-admin/                       # [개발자 C] 관리자용 React 앱
+|   +-- src/
+|   |   +-- features/
+|   |   |   +-- auth/
+|   |   |   +-- dashboard/
+|   |   |   +-- table/
+|   |   |   +-- menu/
+|   |   +-- common/
+|   |   |   +-- components/
+|   |   |   +-- hooks/
+|   |   |   +-- api/
+|   |   |   +-- types/
+|   |   +-- mocks/                        # Mock API + Mock SSE (Backend 없이 독립 개발용)
+|   |   |   +-- handlers.ts
+|   |   |   +-- sse-mock.ts
+|   |   |   +-- data.ts
+|   |   +-- App.tsx
+|   |   +-- main.tsx
+|   +-- index.html
+|   +-- package.json
+|   +-- vite.config.ts
+|   +-- tsconfig.json
+|   +-- Dockerfile
+|   +-- README.md                         # Admin FE 독립 빌드/실행 가이드
+|
++-- docker-compose.yml                    # 통합 실행 (3개 유닛 + MySQL)
++-- docker-compose.dev.yml                # 개발용 (MySQL만)
++-- README.md                             # 전체 프로젝트 가이드
 +-- .gitignore
 ```
+
+### 독립 개발 지원 구조 설명
+
+| 요소 | 목적 | 담당 |
+|------|------|------|
+| `docs/api-spec/openapi.yml` | API 계약 정의 (FE 개발자가 Mock 생성 시 참조) | 개발자 A 작성 |
+| `docs/shared-types/*.md` | DTO 명세 문서 (코드 의존성 아닌 참조 문서) | 개발자 A 작성 |
+| `docs/sse-events.md` | SSE 이벤트 형식 정의 | 개발자 A 작성 |
+| `frontend-*/src/mocks/` | MSW(Mock Service Worker) 기반 Mock API | 개발자 B, C 각자 작성 |
+| `*/Dockerfile` | 각 유닛 독립 컨테이너화 | 각 개발자 |
+| `*/README.md` | 각 유닛 독립 빌드/실행 가이드 | 각 개발자 |
+| `docker-compose.yml` | 통합 테스트 시 전체 실행 | 통합 시 사용 |
 
 ---
 
