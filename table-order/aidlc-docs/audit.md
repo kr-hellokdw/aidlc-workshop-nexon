@@ -173,6 +173,126 @@
 
 ---
 
+## CONSTRUCTION - Unit 3 Functional Design (Start)
+**Timestamp**: 2026-05-06T01:00:00Z
+**User Input**: "나는 이 중 Unit3를 맏게 되었어. 일단 unit3에 대해서 진행하자."
+**AI Response**: Unit 3 (Admin Frontend) Construction Phase 시작. Functional Design 문서 생성.
+**Context**: Construction Phase - Unit 3 - Functional Design
+
+### Generated Artifacts:
+- `aidlc-docs/construction/unit3-admin-frontend/functional-design.md`
+
+---
+
+## CONSTRUCTION - Unit 3 Functional Design (Approval)
+**Timestamp**: 2026-05-06T01:01:00Z
+**User Input**: "승인한다. 다음단계로 넘어가자."
+**AI Response**: Functional Design 승인. NFR Requirements 문서 생성.
+**Context**: Construction Phase - Unit 3 - NFR Requirements
+
+---
+
+## CONSTRUCTION - Unit 3 NFR Requirements (Generation)
+**Timestamp**: 2026-05-06T01:02:00Z
+**AI Response**: Unit 3 NFR Requirements 문서 생성 완료. 9개 카테고리 (보안, 성능, 사용성, 접근성, 신뢰성, 유지보수성, 테스트 가능성, 호환성, 국제화)
+**Context**: Construction Phase - Unit 3 - NFR Requirements
+
+---
+
+## CONSTRUCTION - Unit 3 NFR Requirements (Approval)
+**Timestamp**: 2026-05-06T01:03:00Z
+**User Input**: "승인해. 다음으로."
+**AI Response**: NFR Requirements 승인. NFR Design 문서 생성.
+**Context**: Construction Phase - Unit 3 - NFR Design
+
+---
+
+## CONSTRUCTION - Unit 3 NFR Design (Generation)
+**Timestamp**: 2026-05-06T01:04:00Z
+**AI Response**: Unit 3 NFR Design 문서 생성 완료. 7개 설계 패턴 영역 (보안, 성능, 신뢰성, 접근성, 유지보수성, 테스트, 설계 결정 요약)
+**Context**: Construction Phase - Unit 3 - NFR Design
+
+### Key Design Patterns:
+- Axios 인터셉터 기반 자동 토큰 갱신
+- Route-based lazy loading (React.lazy)
+- React.memo + 불변 reducer로 대시보드 최적화
+- SSE 자동 재연결 (3초/5회) + REST 보상 조회
+- 낙관적 업데이트 + 롤백 패턴
+- Focus trap + aria-live 접근성 패턴
+- MSW + SSE Mock 테스트 패턴
+
+---
+
+## CONSTRUCTION - Unit 3 NFR Design (Approval)
+**Timestamp**: 2026-05-06T01:05:00Z
+**User Input**: "승인해. 다음으로." + "TDD 방식으로 진행해줘"
+**AI Response**: NFR Design 승인. Code Generation 시작 (TDD 방식).
+**Context**: Construction Phase - Unit 3 - Code Generation (TDD)
+
+---
+
+## CONSTRUCTION - Unit 3 Code Generation (TDD)
+**Timestamp**: 2026-05-06T01:06:00Z
+**AI Response**: Unit 3 Admin Frontend 전체 코드 생성 완료 (TDD 방식)
+**Context**: Construction Phase - Unit 3 - Code Generation
+
+### TDD Approach:
+- Red: 테스트 먼저 작성 (validators, formatters, authReducer, dashboardReducer)
+- Green: 최소 구현으로 테스트 통과
+- Refactor: 코드 정리
+
+### Generated Files:
+**프로젝트 설정:**
+- package.json, tsconfig.json, vite.config.ts, vitest.config.ts, .eslintrc.cjs, .prettierrc
+
+**공통 (common/):**
+- types/ (api.ts, order.ts, sse.ts)
+- utils/ (validators.ts, formatters.ts + 테스트)
+- api/ (apiClient.ts)
+- config.ts
+- components/ (AdminLayout, Sidebar, ConfirmDialog, Toast)
+
+**Auth Feature:**
+- types.ts, context/authReducer.ts + 테스트, context/AuthContext.tsx
+- api/authApi.ts, hooks/useAuth.ts
+- components/ (LoginPage, AuthGuard)
+
+**Dashboard Feature:**
+- types.ts, reducers/dashboardReducer.ts + 테스트
+- api/dashboardApi.ts, hooks/ (useDashboard, useSSE)
+- components/ (DashboardPage, TableCard, OrderDetailModal)
+
+**Table Management Feature:**
+- types.ts, api/tableApi.ts, hooks/useTableManagement.ts
+- components/ (TableManagementPage, TableSetupForm, OrderHistoryModal)
+
+**Menu Management Feature:**
+- types.ts, api/menuApi.ts
+- hooks/ (useMenuManagement, useCategoryManagement)
+- components/ (MenuManagementPage, MenuForm, CategoryManager)
+
+**MSW Mocks:**
+- browser.ts, data.ts
+- handlers/ (auth, dashboard, tables, menus, index)
+
+**Styles:**
+- index.css, components.css, layout.css, pages.css
+
+**App Entry:**
+- App.tsx (lazy loading routes), main.tsx
+
+### Generated Artifacts:
+- `aidlc-docs/construction/unit3-admin-frontend/functional-design.md`
+  - 라우팅 구조 (4개 라우트)
+  - Auth Feature 상세 설계 (LoginPage, AuthContext, API 연동)
+  - Dashboard Feature 상세 설계 (DashboardPage, OrderDetailModal, SSE 연동)
+  - Table Management Feature 상세 설계 (CRUD, 과거 내역)
+  - Menu Management Feature 상세 설계 (CRUD, 이미지 업로드, 드래그 순서)
+  - 공통 컴포넌트 설계 (Layout, API Client, SSE Client)
+  - 타입 정의, Mock 데이터 구조, 에러 처리 전략, 접근성
+
+---
+
 ## CONSTRUCTION - Project Structure Update (Independent Development)
 **Timestamp**: 2026-05-06T00:13:00Z
 **User Input**: "unit 별로 3명이서 각각 나눠서 진행을 할 예정이야그리고 각 unit 별로 개별 PC 에서 진행을 하고 나중에 push 를 할거고이를 위한 폴더 구조 수정을 해줄래?"
