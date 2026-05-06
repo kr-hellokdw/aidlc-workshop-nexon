@@ -62,7 +62,7 @@ save () {
 }
 APP_ARGS=$(save "$@")
 
-GRADLE_OPTS="$GRADLE_OPTS \"-Xmx64m\" \"-Xms64m\""
+GRADLE_OPTS="$GRADLE_OPTS -Xmx64m -Xms64m"
 
 exec "$JAVACMD" $JAVA_OPTS $GRADLE_OPTS \
     -classpath "$CLASSPATH" \

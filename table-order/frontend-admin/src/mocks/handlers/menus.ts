@@ -22,7 +22,7 @@ export const menuHandlers = [
       name: formData.get('name') as string,
       price: Number(formData.get('price')),
       description: (formData.get('description') as string) || '',
-      imageUrl: null,
+      imageUrl: '',
       categoryId: Number(formData.get('categoryId')),
       categoryName: categories.find((c) => c.categoryId === Number(formData.get('categoryId')))?.name || '',
       displayOrder: menus.length,

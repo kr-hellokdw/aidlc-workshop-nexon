@@ -1,7 +1,18 @@
 import { useState, useEffect } from 'react';
-import { tableApi } from '../api/tableApi';
-import { TableInfo, OrderHistorySession } from '../types';
+import { apiClient } from '@/common/api/apiClient';
+import { ApiResponse } from '@/common/types';
+import { TableInfo } from '../types';
 import { formatCurrency, formatDateTime } from '@/common/utils/formatters';
+
+interface OrderHistoryItem {
+  id: number;
+  orderNumber: number;
+  tableId: number;
+  status: string;
+  totalAmount: number;
+  orderedAt: string;
+  items?: { menuName: string; menuPrice: number; quantity: number; subtotal: number }[];
+}
 
 interface OrderHistoryModalProps {
   table: TableInfo;
@@ -9,8 +20,9 @@ interface OrderHistoryModalProps {
 }
 
 export const OrderHistoryModal = ({ table, onClose }: OrderHistoryModalProps) => {
-  const [sessions, setSessions] = useState<OrderHistorySession[]>([]);
+  const [orders, setOrders] = useState<OrderHistoryItem[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [dateRange, setDateRange] = useState({
     from: getDefaultFrom(),
     to: getDefaultTo(),
@@ -29,11 +41,16 @@ export const OrderHistoryModal = ({ table, onClose }: OrderHistoryModalProps) =>
   useEffect(() => {
     const fetchHistory = async () => {
       setLoading(true);
+      setError(null);
       try {
-        const data = await tableApi.getOrderHistory(table.tableId, dateRange.from, dateRange.to);
-        setSessions(data);
+        const { data } = await apiClient.get<ApiResponse<OrderHistoryItem[]>>(
+          `/api/admin/tables/${table.tableId}/history`,
+          { params: { from: dateRange.from, to: dateRange.to } },
+        );
+        setOrders(data.data || []);
       } catch {
-        setSessions([]);
+        setError('주문 내역을 불러올 수 없습니다');
+        setOrders([]);
       } finally {
         setLoading(false);
       }
@@ -77,27 +94,28 @@ export const OrderHistoryModal = ({ table, onClose }: OrderHistoryModalProps) =>
 
           {loading ? (
             <div className="loading-spinner" role="status" aria-label="로딩 중" />
-          ) : sessions.length === 0 ? (
+          ) : error ? (
+            <p className="empty-message">{error}</p>
+          ) : orders.length === 0 ? (
             <p className="empty-message">해당 기간에 주문 내역이 없습니다</p>
           ) : (
-            sessions.map((session) => (
-              <div key={session.sessionId} className="history-session">
+            orders.map((order) => (
+              <div key={order.id} className="history-session">
                 <div className="session-header">
-                  세션: {formatDateTime(session.startedAt)} ~ {formatDateTime(session.completedAt)}
+                  주문 #{order.orderNumber} · {formatDateTime(order.orderedAt)} · {order.status}
                 </div>
-                <div className="session-orders">
-                  {session.orders.map((order) => (
-                    <div key={order.orderId} className="history-order">
-                      <span>#{order.orderNumber}</span>
-                      <span>
-                        {order.items.map((i) => `${i.menuName}x${i.quantity}`).join(', ')}
-                      </span>
-                      <span>{formatCurrency(order.totalAmount)}</span>
-                    </div>
-                  ))}
-                </div>
+                {order.items && order.items.length > 0 && (
+                  <div className="session-orders">
+                    {order.items.map((item, idx) => (
+                      <div key={idx} className="history-order">
+                        <span>{item.menuName} x{item.quantity}</span>
+                        <span>{formatCurrency(item.subtotal || item.menuPrice * item.quantity)}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
                 <div className="session-total">
-                  세션 합계: {formatCurrency(session.sessionTotal)}
+                  합계: {formatCurrency(order.totalAmount)}
                 </div>
               </div>
             ))

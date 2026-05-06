@@ -32,6 +32,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tableorder
       SPRING_DATASOURCE_USERNAME: tableorder
       SPRING_DATASOURCE_PASSWORD: tableorder1234
+      SPRING_PROFILES_ACTIVE: dev
     depends_on:
       mysql:
         condition: service_healthy

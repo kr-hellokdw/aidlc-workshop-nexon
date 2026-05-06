@@ -28,9 +28,11 @@
   padding: 14px 40px;
   background: var(--color-primary);
   color: #fff;
+  border: none;
   border-radius: var(--radius-md);
   font-size: 15px;
   font-weight: 600;
+  cursor: pointer;
 }
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }

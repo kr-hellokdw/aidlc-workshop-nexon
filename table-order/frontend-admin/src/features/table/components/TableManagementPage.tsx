@@ -107,6 +107,12 @@ export const TableManagementPage = () => {
                     >
                       삭제
                     </button>
+                    <button
+                      onClick={() => setHistoryTarget(table)}
+                      className="btn btn-sm btn-secondary"
+                    >
+                      내역
+                    </button>
                   </>
                 )}
               </td>

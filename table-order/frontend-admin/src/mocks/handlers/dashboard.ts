@@ -2,7 +2,7 @@ import { http, HttpResponse } from 'msw';
 import { mockDashboardData } from '../data';
 
 export const dashboardHandlers = [
-  http.get('/api/admin/dashboard', () => {
+  http.get('/api/admin/tables/dashboard', () => {
     return HttpResponse.json({
       success: true,
       data: { tables: mockDashboardData },

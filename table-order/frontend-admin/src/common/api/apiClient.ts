@@ -19,13 +19,21 @@ apiClient.interceptors.request.use((reqConfig) => {
 });
 
 // Response 인터셉터: 401 시 토큰 갱신
+let isRefreshing = false;
+
 apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    // 로그인/리프레시 요청 자체가 실패한 경우는 그냥 에러 전파
+    if (originalRequest.url?.includes('/api/auth/')) {
+      return Promise.reject(error);
+    }
+
+    if (error.response?.status === 401 && !originalRequest._retry && !isRefreshing) {
       originalRequest._retry = true;
+      isRefreshing = true;
 
       try {
         const refreshToken = localStorage.getItem('refreshToken');
@@ -37,11 +45,13 @@ apiClient.interceptors.response.use(
           refreshToken,
         });
 
-        const newToken = data.data.token;
+        const newToken = data.data.accessToken || data.data.token;
         localStorage.setItem('token', newToken);
         originalRequest.headers.Authorization = `Bearer ${newToken}`;
+        isRefreshing = false;
         return apiClient(originalRequest);
       } catch {
+        isRefreshing = false;
         localStorage.removeItem('token');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('storeInfo');

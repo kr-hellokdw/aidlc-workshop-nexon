@@ -1,13 +1,18 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useDashboard } from '../hooks/useDashboard';
 import { TableCard } from './TableCard';
 import { OrderDetailModal } from './OrderDetailModal';
-import { TableDashboardItem } from '../types';
 
 export const DashboardPage = () => {
   const { tables, loading, error, sseConnected, updateOrderStatus, deleteOrder, completeSession } =
     useDashboard();
-  const [selectedTable, setSelectedTable] = useState<TableDashboardItem | null>(null);
+  const [selectedTableId, setSelectedTableId] = useState<number | null>(null);
+
+  // tables가 업데이트되면 selectedTable도 최신 데이터 반영
+  const selectedTable = useMemo(
+    () => tables.find((t) => t.tableId === selectedTableId) || null,
+    [tables, selectedTableId],
+  );
 
   if (loading) {
     return (
@@ -46,7 +51,7 @@ export const DashboardPage = () => {
           <TableCard
             key={table.tableId}
             table={table}
-            onClick={() => setSelectedTable(table)}
+            onClick={() => setSelectedTableId(table.tableId)}
           />
         ))}
       </div>
@@ -54,7 +59,7 @@ export const DashboardPage = () => {
       {selectedTable && (
         <OrderDetailModal
           table={selectedTable}
-          onClose={() => setSelectedTable(null)}
+          onClose={() => setSelectedTableId(null)}
           onStatusChange={updateOrderStatus}
           onDeleteOrder={deleteOrder}
           onCompleteSession={completeSession}

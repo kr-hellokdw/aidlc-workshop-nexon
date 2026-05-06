@@ -4,6 +4,7 @@ export interface TableDashboardItem {
   tableId: number;
   tableNumber: number;
   sessionStatus: 'ACTIVE' | 'EMPTY';
+  hasActiveSession?: boolean;
   totalAmount: number;
   orders: OrderSummary[];
   isHighlighted?: boolean;

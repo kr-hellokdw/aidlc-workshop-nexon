@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import './common/styles/global.module.css';
+import './common/styles/global.css';
 
 async function enableMocking() {
   if (import.meta.env.DEV) {

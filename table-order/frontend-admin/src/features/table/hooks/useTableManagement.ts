@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { tableApi } from '../api/tableApi';
+import { dashboardApi } from '@/features/dashboard/api/dashboardApi';
 import { TableInfo, TableCreateRequest, TableUpdateRequest } from '../types';
 import { useToast } from '@/common/components/Toast';
 
@@ -13,8 +14,22 @@ export const useTableManagement = () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await tableApi.getTables();
-      setTables(data);
+      const [tableData, dashboardData] = await Promise.all([
+        tableApi.getTables(),
+        dashboardApi.getDashboard().catch(() => []),
+      ]);
+
+      // dashboard 데이터에서 세션 상태를 병합
+      const sessionMap = new Map(
+        dashboardData.map((d) => [Number(d.tableId), d.sessionStatus]),
+      );
+
+      const merged: TableInfo[] = tableData.map((t) => ({
+        ...t,
+        sessionStatus: sessionMap.get(Number(t.tableId)) || t.sessionStatus || 'EMPTY',
+      }));
+
+      setTables(merged);
     } catch {
       setError('테이블 목록을 불러올 수 없습니다');
       toast.error('테이블 목록을 불러올 수 없습니다');
@@ -74,15 +89,13 @@ export const useTableManagement = () => {
     async (tableId: number) => {
       try {
         await tableApi.completeSession(tableId);
-        setTables((prev) =>
-          prev.map((t) => (t.tableId === tableId ? { ...t, sessionStatus: 'EMPTY' as const } : t)),
-        );
         toast.success('이용 완료 처리되었습니다');
+        await loadTables(); // 전체 다시 로드하여 상태 동기화
       } catch {
         toast.error('이용 완료 처리에 실패했습니다');
       }
     },
-    [toast],
+    [toast, loadTables],
   );
 
   return {

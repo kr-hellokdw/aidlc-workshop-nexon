@@ -18,6 +18,13 @@ const STATUS_OPTIONS: { value: OrderStatus; label: string }[] = [
   { value: 'COMPLETED', label: '완료' },
 ];
 
+const getAvailableStatuses = (current: OrderStatus) => {
+  const order: OrderStatus[] = ['PENDING', 'PREPARING', 'COMPLETED'];
+  const currentIdx = order.indexOf(current);
+  // 현재 상태 + 바로 다음 상태만 허용
+  return STATUS_OPTIONS.filter((_, idx) => idx <= currentIdx + 1);
+};
+
 export const OrderDetailModal = ({
   table,
   onClose,
@@ -94,7 +101,7 @@ export const OrderDetailModal = ({
                     }
                     className={`status-select status-${order.status.toLowerCase()}`}
                   >
-                    {STATUS_OPTIONS.map((opt) => (
+                    {getAvailableStatuses(order.status).map((opt) => (
                       <option key={opt.value} value={opt.value}>
                         {opt.label}
                       </option>

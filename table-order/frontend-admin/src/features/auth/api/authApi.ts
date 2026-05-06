@@ -4,11 +4,28 @@ import { ApiResponse } from '@/common/types';
 
 export const authApi = {
   login: async (request: LoginRequest): Promise<LoginResponse> => {
-    const { data } = await apiClient.post<ApiResponse<LoginResponse>>(
+    const { data } = await apiClient.post<ApiResponse<{
+      accessToken: string;
+      refreshToken: string;
+      role: string;
+      storeId: number;
+    }>>(
       '/api/auth/admin/login',
-      request,
+      {
+        storeId: Number(request.storeId),
+        username: request.username,
+        password: request.password,
+      },
     );
-    return data.data;
+    return {
+      token: data.data.accessToken,
+      refreshToken: data.data.refreshToken,
+      storeInfo: {
+        storeId: data.data.storeId,
+        storeName: `매장 ${data.data.storeId}`,
+        username: request.username,
+      },
+    };
   },
 
   logout: async (): Promise<void> => {
@@ -16,10 +33,10 @@ export const authApi = {
   },
 
   refresh: async (refreshToken: string): Promise<{ token: string }> => {
-    const { data } = await apiClient.post<ApiResponse<{ token: string }>>(
+    const { data } = await apiClient.post<ApiResponse<{ accessToken: string }>>(
       '/api/auth/refresh',
       { refreshToken },
     );
-    return data.data;
+    return { token: data.data.accessToken };
   },
 };

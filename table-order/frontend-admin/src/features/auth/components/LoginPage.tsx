@@ -1,10 +1,10 @@
 import { useState, FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { LoginRequest } from '../types';
 
 export const LoginPage = () => {
-  const { login, isAuthenticated } = useAuth();
+  const { login, isAuthenticated, loading } = useAuth();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState<LoginRequest>({
@@ -16,9 +16,8 @@ export const LoginPage = () => {
   const [submitting, setSubmitting] = useState(false);
 
   // 이미 인증된 경우 대시보드로 리다이렉트
-  if (isAuthenticated) {
-    navigate('/dashboard', { replace: true });
-    return null;
+  if (!loading && isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
   }
 
   const handleSubmit = async (e: FormEvent) => {
